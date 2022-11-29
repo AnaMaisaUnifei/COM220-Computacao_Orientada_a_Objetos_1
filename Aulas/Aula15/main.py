@@ -78,7 +78,7 @@ class ControlePrincipal():
 
     def salvaDados(self):
         self.ctrlEstudante.salvaEstudantes()
-        #self.ctrlDisciplina.salvaDisciplinas()
+        self.ctrlDisciplina.salvaDisciplinas()
         #self.ctrlTurma.salvaTurmas()
         self.root.destroy()
 

@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
+import os.path
+import pickle
 
 class Disciplina:
 
@@ -60,13 +62,18 @@ class LimiteMostraDisciplinas():
         messagebox.showinfo('Lista de disciplinas', str)
 
       
-class CtrlDisciplina():       
+class CtrlDisciplina():
     def __init__(self):
-        self.listaDisciplinas = [
-            Disciplina('COM220', 'Programação OO'),
-            Disciplina('COM222', 'Programação Web'),
-            Disciplina('COM111', 'Estruturas de Dados')
-        ]
+        if not os.path.isfile("disciplinas.pickle"):
+            self.listaDisciplinas = []
+        else:
+            with open("disciplinas.pickle", "rb") as f:
+                self.listaDisciplinas = pickle.load(f)
+
+    def salvaDisciplinas(self):
+        if len(self.listaDisciplinas) != 0:
+            with open("disciplinas.pickle","wb") as f:
+                pickle.dump(self.listaDisciplinas, f)        
 
     def getListaDisciplinas(self):
         return self.listaDisciplinas
