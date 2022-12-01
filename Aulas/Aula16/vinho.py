@@ -218,9 +218,23 @@ class CtrlVinho():
         self.limiteIns.destroy()
 
     def exibeTipo(self,event):
-        pass
-        #implementar
+        tipoSelecionado = self.limiteCons.comboboxTipo.get()
+        self.limiteCons.comboboxVariedade.set("---")
+        self.limiteCons.textVinhos.config(state='normal')
+        self.limiteCons.textVinhos.delete("1.0", tk.END)
+        for vinho in self.listaVinhos:
+            if(vinho.tipo == tipoSelecionado):
+                vinhos = vinho.getVinho() + '/n/n'
+                self.limiteCons.textVinhos.insert(1.0, vinhos)
+        self.limiteCons.textVinhos.config(state = 'disable')
 
     def exibeVariedade(self, event):
-        pass
-        #implementar
+        variedadeSelecionada = self.limiteCons.comboboxVariedade.get()
+        self.limiteCons.comboboxTipo.set("---")
+        self.limiteCons.textVinhos.config(state='normal')
+        self.limiteCons.textVinhos.delete("1.0", tk.END)
+        for vinho in self.listaVinhos:
+            if(vinho.variedade == variedadeSelecionada):
+                vinhos = vinho.getVinho() + '/n/n'
+                self.limiteCons.textVinhos.insert(1.0, vinhos)
+        self.limiteCons.textVinhos.config(state = 'disable')
