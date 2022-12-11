@@ -88,36 +88,24 @@ class LimiteCadastraEquipe(tk.Toplevel):
     messagebox.showinfo(titulo, msg)
 
 class LimiteDadosCampeonato(tk.Toplevel):
-  def __init__(self, controle, estrelas):
+  def __init__(self, controle):
     tk.Toplevel.__init__(self)
-    self.geometry('250x100')
-    self.title("Avaliar Jogo")
+    self.geometry('500x200')
+    self.title("Informações do Campeonato")
     self.ctrl = controle
 
-    self.frameCursos = tk.Frame(self)
-    self.frameAvaliacao = tk.Frame(self)
+    self.frameInfos = tk.Frame(self)
     self.frameButton = tk.Frame(self)
-    self.frameCursos.pack()
-    self.frameAvaliacao.pack()
+    self.frameInfos.pack()
     self.frameButton.pack()
 
-    self.labelCursos = tk.Label(self.frameCursos,text="Código do Jogo: ")
-    self.labelCursos.pack(side="left")
-    self.inputCursos = tk.Entry(self.frameCursos, width=20)
-    self.inputCursos.pack(side="left")
+    self.textInfos = tk.Text(self.frameInfos, height=10,width=60)
+    self.textInfos.pack()
+    self.textInfos.config(state=tk.DISABLED) 
 
-    self.labelAvaliacao = tk.Label(self.frameAvaliacao,text="Avaliação: ")
-    self.labelAvaliacao.pack(side="left")
-    self.escolhaAvaliacao = tk.StringVar()
-    self.comboboxAvaliacao = ttk.Combobox(self.frameAvaliacao, width = 15 ,values=estrelas, textvariable = self.escolhaAvaliacao)
-    self.comboboxAvaliacao.pack(side="left")
-
-    self.buttonSubmit = tk.Button(self.frameButton ,text="Avaliar!")      
-    self.buttonSubmit.pack(side="left")
-    self.buttonSubmit.bind("<Button>", controle.salvaAvaliacao)
-  
-  def mostraJanela(self, titulo, msg):
-    messagebox.showinfo(titulo, msg)
+    self.buttonFechar = tk.Button(self.frameButton ,text="Fechar")      
+    self.buttonFechar.pack(side="left")
+    self.buttonFechar.bind("<Button>", controle.fechaInfos)
 
 class LimiteConsultaEquipe(tk.Toplevel):
   def __init__(self, controle):
@@ -167,6 +155,7 @@ class CtrlEquipe():
   
   def dadosCampeonato(self):
     self.limiteDados = LimiteDadosCampeonato(self)
+    self.processaDados()
   
   def consultaEquipe(self):
     self.limiteCons = LimiteConsultaEquipe(self)
@@ -239,4 +228,27 @@ class CtrlEquipe():
       self.limiteCons.textEquipe.insert(1.0, "Esta sigla de curso não existe")
 
     self.limiteCons.textEquipe.config(state = 'disable')
+  
+  def fechaInfos(self, event):
+    self.limiteDados.destroy()
+  
+  def processaDados(self):
+    numEquipes = len(self.listaEquipes)
+    numEsts = 0
+    media = 0
+
+    for equipe in self.listaEquipes:
+      numEsts += len(equipe.listaEstEquipe)
+    
+    media = numEsts/numEquipes
+
+    self.limiteDados.textInfos.config(state='normal')
+    self.limiteDados.textInfos.delete(1.0, tk.END)
+
+    str = "Dados estatísticos do Campeonato:\n- Número de equipes: {} equipes\n- Número total de estudantes: {} estudantes\n- Média de estudantes por equipe: {} estudantes".format(numEquipes, numEsts, media)
+
+    self.limiteDados.textInfos.insert("1.0", str)
+    self.limiteDados.textInfos.config(state='disable')
+
+
         
