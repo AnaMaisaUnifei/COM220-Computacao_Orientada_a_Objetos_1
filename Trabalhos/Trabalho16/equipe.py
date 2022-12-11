@@ -161,7 +161,7 @@ class CtrlEquipe():
     self.limiteCons = LimiteConsultaEquipe(self)
   
   def bloqueiaCombo(self, event):
-    self.limiteCad.comboboxCursos.config(state='disabled')
+    self.limiteCad.comboboxCursos.config(state='disable')
 
   def addEst(self, event):
     curso = self.limiteCad.comboboxCursos.get()
@@ -187,7 +187,6 @@ class CtrlEquipe():
 
     for eq in self.listaEquipes:
       if eq.curso.sigla == curso.sigla:
-        print(eq.curso.sigla)
         comEquipe = 1
 
     if comEquipe == 0:
